@@ -43,3 +43,5 @@ bin/
 
 ### Other Stuff ###
 *.bak
+.env
+*.log
