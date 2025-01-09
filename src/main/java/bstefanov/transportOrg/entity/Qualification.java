@@ -16,4 +16,35 @@ public class Qualification extends BaseEntity{
 
     @ManyToMany(mappedBy = "qualifications")
     private Set<BaseCargo> cargo;
+
+    public Qualification() {
+    }
+
+    public Qualification(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public Set<BaseCargo> getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Set<BaseCargo> cargo) {
+        this.cargo = cargo;
+    }
 }

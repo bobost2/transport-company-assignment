@@ -9,17 +9,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Employee extends BaseEntity{
-    @Column(name = "first_name", nullable = false, length = 25)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false, length = 25)
-    private String lastName;
-
+public class Employee extends Person{
     @Positive
-    @Digits(integer = 6, fraction = 2)
-    @Column(name = "base_salary")
-    private BigDecimal baseSalary;
+    @Digits(integer = 3, fraction = 2)
+    @Column(name = "pay_rate_by_hour", nullable = false)
+    private BigDecimal payRateByHour;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
@@ -35,4 +29,45 @@ public class Employee extends BaseEntity{
 
     @OneToMany(mappedBy = "employee")
     private Set<Transit> transits;
+
+    public Employee() {
+    }
+
+    public Employee(String firstName, String lastName, BigDecimal payRateByHour, Company company) {
+        super(firstName, lastName);
+        this.payRateByHour = payRateByHour;
+        this.company = company;
+    }
+
+    public BigDecimal getPayRateByHour() {
+        return payRateByHour;
+    }
+
+    public void setPayRateByHour(BigDecimal payRateByHour) {
+        this.payRateByHour = payRateByHour;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Set<Qualification> getQualifications() {
+        return qualifications;
+    }
+
+    public void setQualifications(Set<Qualification> qualifications) {
+        this.qualifications = qualifications;
+    }
+
+    public Set<Transit> getTransits() {
+        return transits;
+    }
+
+    public void setTransits(Set<Transit> transits) {
+        this.transits = transits;
+    }
 }

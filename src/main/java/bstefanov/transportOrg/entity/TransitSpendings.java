@@ -17,4 +17,38 @@ public class TransitSpendings extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transit_id", nullable = false)
     private Transit transit;
+
+    public TransitSpendings() {
+
+    }
+
+    public TransitSpendings(BigDecimal amount, String reason, Transit transit) {
+        this.amount = amount;
+        this.reason = reason;
+        this.transit = transit;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public Transit getTransit() {
+        return transit;
+    }
+
+    public void setTransit(Transit transit) {
+        this.transit = transit;
+    }
 }

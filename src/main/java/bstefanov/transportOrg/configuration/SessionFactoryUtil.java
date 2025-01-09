@@ -17,7 +17,12 @@ public class SessionFactoryUtil {
             configuration.addAnnotatedClass(bstefanov.transportOrg.entity.Qualification.class);
             configuration.addAnnotatedClass(bstefanov.transportOrg.entity.Transit.class);
             configuration.addAnnotatedClass(bstefanov.transportOrg.entity.BaseCargo.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.PeopleTransport.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.NormalCargo.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.LiquidCargo.class);
             configuration.addAnnotatedClass(bstefanov.transportOrg.entity.TransitSpendings.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.Client.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.TransitClient.class);
 
             ServiceRegistry serviceRegistry
                     = new StandardServiceRegistryBuilder()
