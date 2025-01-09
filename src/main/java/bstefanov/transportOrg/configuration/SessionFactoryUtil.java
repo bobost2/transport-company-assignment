@@ -11,7 +11,13 @@ public class SessionFactoryUtil {
         if (sessionFactory == null) {
             Configuration configuration = new Configuration();
 
-            // add all annotated classes
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.Company.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.Employee.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.Vehicle.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.Qualification.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.Transit.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.BaseCargo.class);
+            configuration.addAnnotatedClass(bstefanov.transportOrg.entity.TransitSpendings.class);
 
             ServiceRegistry serviceRegistry
                     = new StandardServiceRegistryBuilder()
