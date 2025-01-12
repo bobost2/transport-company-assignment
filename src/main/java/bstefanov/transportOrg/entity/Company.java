@@ -1,17 +1,27 @@
 package bstefanov.transportOrg.entity;
 
+import bstefanov.transportOrg.validator.Coordinates;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
 @Entity
 public class Company extends BaseEntity {
-    @Column(name = "name", nullable = false, length = 60)
+    @NotBlank(message = "The company name cannot be blank!")
+    @Size(max = 40, message = "The company name cannot be longer than 40 characters!")
+    @Pattern(regexp = "^([A-Z]).*", message = "Company name has to start with capital letter!")
+    @Column(name = "name", nullable = false, length = 40)
     private String name;
 
-    @Column(name = "address", nullable = false, length = 100)
+    @NotBlank(message = "The company address cannot be blank!")
+    @Size(max = 30, message = "The company address cannot be longer than 30 characters!")
+    @Coordinates
+    @Column(name = "address", nullable = false, length = 30)
     private String address;
 
     @OneToMany(mappedBy = "company")

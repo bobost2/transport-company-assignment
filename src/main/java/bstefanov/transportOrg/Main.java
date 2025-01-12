@@ -1,6 +1,7 @@
 package bstefanov.transportOrg;
 
 import bstefanov.transportOrg.configuration.SessionFactoryUtil;
+import bstefanov.transportOrg.service.InteractionService;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class Main {
@@ -11,5 +12,8 @@ public class Main {
 
         // Main logic
         SessionFactoryUtil.getSessionFactory().openSession();
+
+        InteractionService interactionService = new InteractionService();
+        interactionService.showMenu();
     }
 }
