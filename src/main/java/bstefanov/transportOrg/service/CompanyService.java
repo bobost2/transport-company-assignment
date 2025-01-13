@@ -24,7 +24,7 @@ public class CompanyService {
             System.out.println("1. Create company");
             System.out.println("2. List companies");
             System.out.println(" ");
-            System.out.println("0. Go back");
+            System.out.println("0 - Back");
             System.out.println("-".repeat(40));
 
             try {
@@ -164,8 +164,9 @@ public class CompanyService {
 
                 switch (outputSplit[0]) {
                     case "manage":
-                        // Open management menu
-                        //manageCompany(Long.parseLong(outputSplit[0]));
+                        System.out.println("=".repeat(40));
+                        CompanyManagementService companyManagementService = new CompanyManagementService(company);
+                        companyManagementService.showMenu();
                         break;
                     case "edit":
                         System.out.println("=".repeat(40));

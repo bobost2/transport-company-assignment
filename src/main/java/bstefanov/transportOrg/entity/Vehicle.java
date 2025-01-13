@@ -1,7 +1,9 @@
 package bstefanov.transportOrg.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
@@ -19,6 +21,10 @@ public class Vehicle extends BaseEntity{
     @Column(name="model", nullable = false, length = 20)
     private String model;
 
+    @Digits(integer = 2, fraction = 4) // Should not exceed 99.9999, that would be absurd
+    @Column(name="fuel_price_per_KM", nullable = false)
+    private BigDecimal fuelPricePerKM;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
@@ -30,11 +36,13 @@ public class Vehicle extends BaseEntity{
 
     }
 
-    public Vehicle(String licensePlate, VehicleType type, String brand, String model, Company company) {
+    public Vehicle(String licensePlate, VehicleType type, String brand, String model,
+                   BigDecimal fuelPricePerKM, Company company) {
         this.licensePlate = licensePlate;
         this.type = type;
         this.brand = brand;
         this.model = model;
+        this.fuelPricePerKM = fuelPricePerKM;
         this.company = company;
     }
 
@@ -68,6 +76,14 @@ public class Vehicle extends BaseEntity{
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public BigDecimal getFuelPricePerKM() {
+        return fuelPricePerKM;
+    }
+
+    public void setFuelPricePerKM(BigDecimal fuelPricePerKM) {
+        this.fuelPricePerKM = fuelPricePerKM;
     }
 
     public Company getCompany() {
