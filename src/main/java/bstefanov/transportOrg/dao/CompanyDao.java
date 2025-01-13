@@ -24,10 +24,9 @@ public class CompanyDao {
         ArrayList<CompanyListDto> companies = new ArrayList<>();
         try(Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
-            session.createQuery("from Company", Company.class).list().forEach(company -> {
-                companies.add(new CompanyListDto(company.getId(), company.getName(),
-                        company.getAddress(), BigDecimal.ZERO));
-            });
+            session.createQuery("from Company", Company.class).list().forEach(company ->
+                    companies.add(new CompanyListDto(company.getId(), company.getName(),
+                            company.getAddress(), BigDecimal.ZERO)));
         }
         return companies;
     }
