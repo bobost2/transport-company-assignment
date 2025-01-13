@@ -29,24 +29,26 @@ public class QualificationsService {
                 Scanner scanner = new Scanner(System.in);
                 int choice = scanner.nextInt();
 
-                System.out.println("=".repeat(40));
-
                 switch (choice) {
                     case 1:
+                        System.out.println("=".repeat(40));
                         addQualification();
                         break;
                     case 2:
+                        System.out.println("=".repeat(40));
                         listQualifications();
                         break;
                     case 0:
-                        System.out.println("Exiting...");
+                        System.out.println("=".repeat(40));
                         shouldExit = true;
                         break;
                     default:
                         System.out.println("Invalid choice, try again");
+                        System.out.println("=".repeat(40));
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input, try again");
+                System.out.println("=".repeat(40));
             }
         } while (!shouldExit);
     }
@@ -69,8 +71,8 @@ public class QualificationsService {
             for (var violation : e.getConstraintViolations()) {
                 System.out.println("[!] - " + violation.getMessage());
             }
-            System.out.println("=".repeat(40));
         }
+        System.out.println("=".repeat(40));
     }
 
     private void listQualifications() {
@@ -80,9 +82,11 @@ public class QualificationsService {
             System.out.println("=".repeat(40));
             System.out.println("Qualifications:");
             System.out.println("-".repeat(40));
-            System.out.println("Syntax: [OpID] [Operation]");
+            System.out.println("Syntax: [Operation] [OpID]");
             System.out.println("edit - Edit qualification");
             System.out.println("delete - Delete qualification");
+            System.out.println(" ");
+            System.out.println("0 - Back");
             System.out.println("-".repeat(40));
             System.out.println("Qualifications (OpID - Name):");
 
@@ -100,25 +104,29 @@ public class QualificationsService {
             String[] splitInput = input.split(" ");
 
             if (splitInput.length == 2) {
-                switch (splitInput[1]) {
+                QualificationDto qualification = qualifications.get(Integer.parseInt(splitInput[1]) - 1);
+
+                switch (splitInput[0]) {
                     case "edit":
-                        editQualification(qualifications.get(Integer.parseInt(splitInput[0]) - 1));
+                        System.out.println("=".repeat(40));
+                        editQualification(qualification);
                         break;
                     case "delete":
-                        QualificationDto qualification = qualifications.get(Integer.parseInt(splitInput[0]) - 1);
+                        System.out.println("=".repeat(40));
                         String name = qualification.getName();
                         QualificationsDao.deleteQualification(qualification.getId());
                         System.out.println("Qualification " + name + " was successfully deleted!");
                         break;
                     default:
                         System.out.println("Invalid operation, try again");
+                        System.out.println("=".repeat(40));
                 }
             } else if (input.equals("0")) {
                 shouldExit = true;
             } else {
                 System.out.println("Invalid input, try again");
+                System.out.println("=".repeat(40));
             }
-            System.out.println("=".repeat(40));
         } while (!shouldExit);
     }
 

@@ -3,6 +3,9 @@ package bstefanov.transportOrg.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
@@ -11,7 +14,9 @@ public class Client extends Person{
     @Column(name = "is_legal_entity", nullable = false)
     private boolean isLegalEntity;
 
-    @Column(name = "company_name", length = 60)
+    @Size(max = 40, message = "The company name cannot be longer than 40 characters!")
+    @Pattern(regexp = "^([A-Z]).*", message = "Company name has to start with a capital letter!")
+    @Column(name = "company_name", length = 40)
     private String companyName;
 
     @OneToMany(mappedBy = "client")

@@ -14,7 +14,7 @@ import java.util.Set;
 public class Company extends BaseEntity {
     @NotBlank(message = "The company name cannot be blank!")
     @Size(max = 40, message = "The company name cannot be longer than 40 characters!")
-    @Pattern(regexp = "^([A-Z]).*", message = "Company name has to start with capital letter!")
+    @Pattern(regexp = "^([A-Z]).*", message = "Company name has to start with a capital letter!")
     @Column(name = "name", nullable = false, length = 40)
     private String name;
 

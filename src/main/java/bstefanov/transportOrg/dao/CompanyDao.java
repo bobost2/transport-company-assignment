@@ -1,7 +1,7 @@
 package bstefanov.transportOrg.dao;
 
 import bstefanov.transportOrg.configuration.SessionFactoryUtil;
-import bstefanov.transportOrg.dto.CompanyListDto;
+import bstefanov.transportOrg.dto.CompanyListEntityDto;
 import bstefanov.transportOrg.dto.CreateCompanyDto;
 import bstefanov.transportOrg.entity.Company;
 import org.hibernate.Session;
@@ -20,18 +20,18 @@ public class CompanyDao {
         }
     }
 
-    public static ArrayList<CompanyListDto> getCompanies() {
-        ArrayList<CompanyListDto> companies = new ArrayList<>();
+    public static ArrayList<CompanyListEntityDto> getCompanies() {
+        ArrayList<CompanyListEntityDto> companies = new ArrayList<>();
         try(Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.createQuery("from Company", Company.class).list().forEach(company ->
-                    companies.add(new CompanyListDto(company.getId(), company.getName(),
+                    companies.add(new CompanyListEntityDto(company.getId(), company.getName(),
                             company.getAddress(), BigDecimal.ZERO)));
         }
         return companies;
     }
 
-    public static void editCompany(CompanyListDto company) {
+    public static void editCompany(CompanyListEntityDto company) {
         try(Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             Company companyEntity = session.get(Company.class, company.getId());
@@ -46,6 +46,7 @@ public class CompanyDao {
         try(Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             Company company = session.get(Company.class, id);
+            // TODO: Handle constraint violation
             session.remove(company);
             transaction.commit();
         }

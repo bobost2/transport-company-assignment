@@ -2,13 +2,13 @@ package bstefanov.transportOrg.dto;
 
 import java.math.BigDecimal;
 
-public class CompanyListDto {
+public class CompanyListEntityDto {
     private long id;
     private String name;
     private String address;
     private BigDecimal profit;
 
-    public CompanyListDto(long id, String name, String address, BigDecimal profit) {
+    public CompanyListEntityDto(long id, String name, String address, BigDecimal profit) {
         this.id = id;
         this.name = name;
         this.address = address;
