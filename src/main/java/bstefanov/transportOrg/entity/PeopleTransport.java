@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 @Entity
 public class PeopleTransport extends BaseCargo {
     @Positive
-    @Column(name = "passengers", nullable = false)
+    @Column(name = "passengers")
     private int passengers;
 
     public PeopleTransport() {

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Entity
 public class NormalCargo extends BaseCargo {
     @Positive
-    @Column(name = "weight", nullable = false)
+    @Column(name = "weight")
     @Digits(integer = 4, fraction = 3)
     private BigDecimal weight;
 

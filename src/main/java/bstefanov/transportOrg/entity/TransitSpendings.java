@@ -55,4 +55,12 @@ public class TransitSpendings extends BaseEntity {
     public void setTransit(Transit transit) {
         this.transit = transit;
     }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 }

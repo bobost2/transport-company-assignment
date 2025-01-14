@@ -59,6 +59,8 @@ public class EmployeeDao {
 
             if (qualificationFilterIds != null && !qualificationFilterIds.isEmpty()) {
                 predicates.add(qualificationsJoin.get("id").in(qualificationFilterIds));
+                criteria.groupBy(root.get("id"));
+                criteria.having(cb.equal(cb.countDistinct(qualificationsJoin.get("id")), qualificationFilterIds.size()));
             }
 
             criteria.select(root).where(cb.and(predicates.toArray(new jakarta.persistence.criteria.Predicate[0])));

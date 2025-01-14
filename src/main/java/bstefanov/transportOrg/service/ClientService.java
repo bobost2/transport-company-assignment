@@ -2,6 +2,7 @@ package bstefanov.transportOrg.service;
 
 import bstefanov.transportOrg.dao.ClientDao;
 import bstefanov.transportOrg.dto.ClientDto;
+import bstefanov.transportOrg.dto.ClientInvoiceShortDto;
 import jakarta.validation.ConstraintViolationException;
 
 import java.util.List;
@@ -132,8 +133,8 @@ public class ClientService {
 
                 switch (splitInput[0]) {
                     case "manage":
-                        System.out.println("Not implemented yet");
                         System.out.println("=".repeat(40));
+                        manageClient(client);
                         break;
                     case "edit":
                         System.out.println("=".repeat(40));
@@ -208,5 +209,46 @@ public class ClientService {
             }
         }
         System.out.println("=".repeat(40));
+    }
+
+    private void manageClient(ClientDto client) {
+        boolean shouldExit = false;
+        do {
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.println("Manage client " + client.getFirstName() + " " + client.getLastName());
+            System.out.println("Pay invoices");
+            System.out.println("-".repeat(40));
+
+            List<ClientInvoiceShortDto> invoices = ClientDao.getClientUnpaidInvoicesShort(client.getId());
+            if (invoices.isEmpty()) {
+                System.out.println("No unpaid invoices");
+            } else {
+                System.out.println("Unpaid invoices:");
+
+                invoices.forEach(invoice ->
+                        System.out.println("Invoice " + invoice.getId() + " for " + invoice.getAmount()
+                                + " to " + invoice.getCompanyName())
+                );
+            }
+
+            System.out.println("-".repeat(40));
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Press 0 to go back\nWaiting for input:");
+            int choice = scanner.nextInt();
+
+            if (choice == 0) {
+                shouldExit = true;
+            } else {
+                if ( invoices.stream().anyMatch(invoice -> invoice.getId() == choice) ) {
+                    ClientDao.payInvoice(choice);
+                    System.out.println("Invoice paid successfully!");
+                } else {
+                    System.out.println("Invalid invoice ID, try again");
+                }
+            }
+            System.out.println("=".repeat(40));
+
+        } while (!shouldExit);
     }
 }

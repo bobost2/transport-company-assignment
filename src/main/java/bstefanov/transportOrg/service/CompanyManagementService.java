@@ -1,7 +1,11 @@
 package bstefanov.transportOrg.service;
 
+import bstefanov.transportOrg.dao.ClientDao;
+import bstefanov.transportOrg.dto.ClientDto;
+import bstefanov.transportOrg.dto.ClientInvoiceDto;
 import bstefanov.transportOrg.dto.CompanyListEntityDto;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class CompanyManagementService {
@@ -50,7 +54,7 @@ public class CompanyManagementService {
                         break;
                     case 4:
                         System.out.println("=".repeat(40));
-                        // Get unpaid invoices
+                        showUnpaidInvoices();
                         break;
                     case 5:
                         System.out.println("=".repeat(40));
@@ -70,5 +74,30 @@ public class CompanyManagementService {
             }
 
         } while (!shouldExit);
+    }
+
+    private void showUnpaidInvoices() {
+        System.out.println("\n");
+        System.out.println("=".repeat(40));
+        System.out.println("Unpaid invoices");
+        System.out.println("-".repeat(40));
+
+        List<ClientInvoiceDto> unpaidInvoices = ClientDao.getClientUnpaidInvoices(companyListEntity.getId());
+        if (unpaidInvoices.isEmpty()) {
+            System.out.println("No unpaid invoices");
+        } else {
+            System.out.println("Unpaid invoices:");
+
+            unpaidInvoices.forEach(invoice ->
+                System.out.println("Client " + invoice.getClient().getFirstName() + " "
+                        + invoice.getClient().getLastName() + " has unpaid invoice for " + invoice.getAmount())
+            );
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Press enter to continue");
+        scanner.nextLine();
+
+        System.out.println("=".repeat(40));
     }
 }

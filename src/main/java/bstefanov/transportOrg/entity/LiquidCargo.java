@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Entity
 public class LiquidCargo extends NormalCargo{
     @Positive
-    @Column(name = "liters", nullable = false)
+    @Column(name = "liters")
     private int liters;
 
     public LiquidCargo() {
