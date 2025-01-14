@@ -35,11 +35,13 @@ public class CompanyManagementService {
                 switch (choice) {
                     case 1:
                         System.out.println("=".repeat(40));
-                        // Employee management service
+                        EmployeeService employeeService = new EmployeeService(companyListEntity.getId());
+                        employeeService.showMenu();
                         break;
                     case 2:
                         System.out.println("=".repeat(40));
-                        // Vehicle management service
+                        VehicleService vehicleService = new VehicleService(companyListEntity.getId());
+                        vehicleService.showMenu();
                         break;
                     case 3:
                         System.out.println("=".repeat(40));

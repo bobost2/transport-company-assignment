@@ -18,6 +18,10 @@ public class TransitSpendings extends BaseEntity {
     @JoinColumn(name = "transit_id", nullable = false)
     private Transit transit;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
     public TransitSpendings() {
 
     }

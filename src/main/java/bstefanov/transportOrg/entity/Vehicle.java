@@ -2,12 +2,18 @@ package bstefanov.transportOrg.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
 public class Vehicle extends BaseEntity{
+    @NotEmpty(message = "License plate cannot be empty")
+    @Size(max = 15, message = "License plate must be up to 15 characters long")
+    @Pattern(regexp = "^[A-Z0-9-]*$", message = "License plate must contain only uppercase letters, digits and hyphens")
     @Column(name="license_plate", nullable = false, length = 15)
     private String licensePlate;
 
@@ -15,13 +21,16 @@ public class Vehicle extends BaseEntity{
     @Column(name="type", nullable = false, length = 10)
     private VehicleType type;
 
+    @NotEmpty(message = "Brand cannot be empty")
     @Column(name="brand", nullable = false, length = 20)
     private String brand;
 
+    @NotEmpty(message = "Model cannot be empty")
     @Column(name="model", nullable = false, length = 20)
     private String model;
 
-    @Digits(integer = 2, fraction = 4) // Should not exceed 99.9999, that would be absurd
+    @Digits(integer = 2, fraction = 4, message = ("Fuel price per km must be a number with up to " +
+            "2 digits before the decimal point and up to 4 digits after the decimal point"))
     @Column(name="fuel_price_per_KM", nullable = false)
     private BigDecimal fuelPricePerKM;
 

@@ -1,9 +1,7 @@
 package bstefanov.transportOrg.service;
 
 import bstefanov.transportOrg.dao.ClientDao;
-import bstefanov.transportOrg.dao.QualificationsDao;
 import bstefanov.transportOrg.dto.ClientDto;
-import bstefanov.transportOrg.dto.QualificationDto;
 import jakarta.validation.ConstraintViolationException;
 
 import java.util.List;

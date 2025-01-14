@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 public class Employee extends Person{
-    @Positive
+    @Positive(message = "The pay rate by hour must be a positive number!")
     @Digits(integer = 3, fraction = 2)
     @Column(name = "pay_rate_by_hour", nullable = false)
     private BigDecimal payRateByHour;
@@ -29,6 +29,9 @@ public class Employee extends Person{
 
     @OneToMany(mappedBy = "employee")
     private Set<Transit> transits;
+
+    @OneToMany(mappedBy = "employee")
+    private Set<TransitSpendings> payments;
 
     public Employee() {
     }
