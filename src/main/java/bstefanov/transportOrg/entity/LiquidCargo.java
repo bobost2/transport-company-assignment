@@ -15,6 +15,11 @@ public class LiquidCargo extends NormalCargo{
     public LiquidCargo() {
     }
 
+    public LiquidCargo(BigDecimal weight, int liters) {
+        super(weight);
+        this.liters = liters;
+    }
+
     public LiquidCargo(Transit transit, BigDecimal weight, int liters) {
         super(transit, weight);
         this.liters = liters;

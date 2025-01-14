@@ -45,7 +45,8 @@ public class CompanyManagementService {
                         break;
                     case 3:
                         System.out.println("=".repeat(40));
-                        // Transit/Routes management service (going to be huge)
+                        RoutesService routesService = new RoutesService(companyListEntity.getId());
+                        routesService.showMenu();
                         break;
                     case 4:
                         System.out.println("=".repeat(40));

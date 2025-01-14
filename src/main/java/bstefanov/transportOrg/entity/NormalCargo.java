@@ -17,6 +17,10 @@ public class NormalCargo extends BaseCargo {
     public NormalCargo() {
     }
 
+    public NormalCargo(BigDecimal weight) {
+        this.weight = weight;
+    }
+
     public NormalCargo(Transit transit, BigDecimal weight) {
         super(transit);
         this.weight = weight;

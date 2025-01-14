@@ -13,6 +13,10 @@ public class PeopleTransport extends BaseCargo {
     public PeopleTransport() {
     }
 
+    public PeopleTransport(int passengers) {
+        this.passengers = passengers;
+    }
+
     public PeopleTransport(Transit transit, int passengers) {
         super(transit);
         this.passengers = passengers;
