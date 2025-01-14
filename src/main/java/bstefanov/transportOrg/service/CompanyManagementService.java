@@ -58,7 +58,8 @@ public class CompanyManagementService {
                         break;
                     case 5:
                         System.out.println("=".repeat(40));
-                        // Report service
+                        ReportingService reportingService = new ReportingService(companyListEntity.getId());
+                        reportingService.showMenu();
                         break;
                     case 0:
                         System.out.println("=".repeat(40));

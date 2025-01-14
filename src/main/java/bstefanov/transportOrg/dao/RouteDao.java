@@ -1,13 +1,11 @@
 package bstefanov.transportOrg.dao;
 
 import bstefanov.transportOrg.configuration.SessionFactoryUtil;
-import bstefanov.transportOrg.dto.LinkClientDto;
-import bstefanov.transportOrg.dto.QualificationDto;
-import bstefanov.transportOrg.dto.RouteDto;
-import bstefanov.transportOrg.dto.RouteExpenseDto;
+import bstefanov.transportOrg.dto.*;
 import bstefanov.transportOrg.entity.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -75,6 +73,46 @@ public class RouteDao {
                         transit.getDepartureTime(), transit.getArrivalTime(), companyId, transit.getVehicle().getId(),
                         transit.getEmployee().getId()));
             }
+        }
+
+        return routes;
+    }
+
+    public static RouteDto getTransit(long transitId) {
+        RouteDto route = null;
+
+        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+
+            Transit transit = session.get(Transit.class, transitId);
+
+            if (transit != null) {
+                route = new RouteDto(transit.getStartingPoint(), transit.getDestinationPoint(), transit.getDistance(),
+                        transit.getDepartureTime(), transit.getArrivalTime(), transit.getCompany().getId(),
+                        transit.getVehicle().getId(), transit.getEmployee().getId());
+            }
+        }
+
+        return route;
+    }
+
+    public static List<RouteCostDto> getTransitCost(long companyId) {
+        List<RouteCostDto> routes = new ArrayList<>();
+
+        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<RouteCostDto> criteria = cb.createQuery(RouteCostDto.class);
+            Root<Transit> root = criteria.from(Transit.class);
+            Join<Transit, TransitSpendings> spendingsJoin = root.join("transitSpendings");
+
+            //RouteCostDto contains the id of the route and the sum of all spendings
+            criteria.select(cb.construct(RouteCostDto.class, root.get("id"), cb.sum(spendingsJoin.get("amount"))))
+                    .where(cb.equal(root.get("company").get("id"), companyId))
+                    .groupBy(root.get("id"));
+
+            routes = session.createQuery(criteria).getResultList();
         }
 
         return routes;

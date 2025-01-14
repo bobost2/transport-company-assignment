@@ -2,12 +2,10 @@ package bstefanov.transportOrg.dao;
 
 import bstefanov.transportOrg.configuration.SessionFactoryUtil;
 import bstefanov.transportOrg.data.EmployeeSort;
+import bstefanov.transportOrg.dto.DriverProfitsDto;
 import bstefanov.transportOrg.dto.EmployeeDto;
 import bstefanov.transportOrg.dto.QualificationDto;
-import bstefanov.transportOrg.entity.Company;
-import bstefanov.transportOrg.entity.Employee;
-import bstefanov.transportOrg.entity.Qualification;
-import bstefanov.transportOrg.entity.Vehicle;
+import bstefanov.transportOrg.entity.*;
 import jakarta.persistence.criteria.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -41,6 +39,31 @@ public class EmployeeDao {
             session.persist(employeeEntity);
             transaction.commit();
         }
+    }
+
+    public static EmployeeDto getEmployee(long employeeId) {
+        EmployeeDto employeeDto = null;
+        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            Employee employee = session.get(Employee.class, employeeId);
+            if (employee != null) {
+                employeeDto = new EmployeeDto(
+                        employee.getId(),
+                        employee.getFirstName(),
+                        employee.getLastName(),
+                        employee.getPayRateByHour(),
+                        new ArrayList<>(),
+                        employee.getCompany().getId()
+                );
+
+                for (Qualification qualification : employee.getQualifications()) {
+                    employeeDto.getQualifications().add(
+                            new QualificationDto(qualification.getId(), qualification.getName())
+                    );
+                }
+            }
+        }
+        return employeeDto;
     }
 
     public static List<EmployeeDto> getEmployees(long companyId, EmployeeSort sort,
@@ -126,5 +149,32 @@ public class EmployeeDao {
             session.remove(employeeEntity);
             transaction.commit();
         }
+    }
+
+    public static List<DriverProfitsDto> getDriverProfits(long companyId) {
+        List<DriverProfitsDto> driverProfits = new ArrayList<>();
+        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<DriverProfitsDto> criteria = cb.createQuery(DriverProfitsDto.class);
+            Root<Employee> root = criteria.from(Employee.class);
+            Join<Employee, TransitSpendings> spendingsJoin = root.join("payments", JoinType.LEFT);
+
+            criteria.select(cb.construct(DriverProfitsDto.class,
+                    root.get("firstName"),
+                    root.get("lastName"),
+                    cb.sum(spendingsJoin.get("amount"))))
+                    .where(cb.and(
+                            cb.equal(root.get("company").get("id"), companyId)
+                    ))
+                    .groupBy(root.get("id"));
+
+            driverProfits = session.createQuery(criteria).getResultList();
+
+            transaction.commit();
+        }
+
+        return driverProfits;
     }
 }
